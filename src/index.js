@@ -46,7 +46,7 @@ class Slider {
     }
     this.thumb.style.transform = `translateX(${this.offset}px)`;
     const currentValue = this.getValue();
-    window.console.log(currentValue)
+    window.console.log(currentValue);
   }
 
   getStepUnit() {
