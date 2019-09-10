@@ -20,18 +20,18 @@ class Slider {
   }
 
   init() {
-    this.setThumbStyle();
-    this.tracker.addEventListener('mousedown', this.setThumbStyle.bind(this));
-
-    this.thumb.addEventListener('mousedown', (e) => {
+    const setStyle = this.setThumbStyle.bind(this);
+    setStyle();
+    this.tracker.addEventListener('pointerdown', setStyle, false);
+    this.thumb.addEventListener('pointerdown', (e) => {
       e.preventDefault();
-      this.thumb.addEventListener('mousemove', this.setThumbStyle.bind(this));
-    });
+      this.thumb.addEventListener('pointermove', setStyle, false);
+    }, false);
 
-    this.thumb.addEventListener('mouseup', (e) => {
+    this.thumb.addEventListener('pointerup', (e) => {
       e.preventDefault();
-      this.thumb.removeEventListener('mousemove', this.setThumbStyle.bind(this));
-    });
+      this.thumb.removeEventListener('pointermove', setStyle, false);
+    }, false);
   }
 
   getThumbPosition() {
@@ -47,7 +47,7 @@ class Slider {
     }
     this.thumb.style.transform = `translateX(${this.offset}px)`;
     const currentValue = this.getValue();
-console.log(currentValue)
+    window.console.log(currentValue)
   }
 
   getOffset() {
