@@ -22,12 +22,12 @@ class Slider {
     const setStyle = this.setThumbStyle.bind(this);
     setStyle();
     this.tracker.addEventListener('mousedown', setStyle, false);
-    this.thumb.addEventListener('mousedown', (e) => {
+    this.tracker.addEventListener('mousedown', (e) => {
       e.preventDefault();
       this.tracker.addEventListener('mousemove', setStyle, false);
     }, false);
 
-    this.thumb.addEventListener('mouseup', (e) => {
+    this.tracker.addEventListener('mouseup', (e) => {
       e.preventDefault();
       this.tracker.removeEventListener('mousemove', setStyle, false);
     }, false);
