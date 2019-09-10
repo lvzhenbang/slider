@@ -14,7 +14,6 @@ class Slider {
     this.thubmPosition = this.getThumbPosition();
     this.value = this.initValue();
     this.offset = this.getOffset();
-    this.opening = false;
     this.init();
     this.version = version;
   }
@@ -22,15 +21,15 @@ class Slider {
   init() {
     const setStyle = this.setThumbStyle.bind(this);
     setStyle();
-    this.tracker.addEventListener('pointerdown', setStyle, false);
-    this.thumb.addEventListener('pointerdown', (e) => {
+    this.tracker.addEventListener('mousedown', setStyle, false);
+    this.thumb.addEventListener('mousedown', (e) => {
       e.preventDefault();
-      this.thumb.addEventListener('pointermove', setStyle, false);
+      this.tracker.addEventListener('mousemove', setStyle, false);
     }, false);
 
-    this.thumb.addEventListener('pointerup', (e) => {
+    this.thumb.addEventListener('mouseup', (e) => {
       e.preventDefault();
-      this.thumb.removeEventListener('pointermove', setStyle, false);
+      this.tracker.removeEventListener('mousemove', setStyle, false);
     }, false);
   }
 
@@ -50,16 +49,38 @@ class Slider {
     window.console.log(currentValue)
   }
 
+  getStepUnit() {
+    return this.options.step * this.tracker.offsetWidth
+    / (this.options.range.max - this.options.range.min);
+  }
+
+  getStepOffset(value) {
+    const stepUnit = this.getStepUnit();
+    const remainder = value % stepUnit;
+    return remainder > stepUnit / 2
+      ? value - remainder + stepUnit : value - remainder;
+  }
+
   getOffset() {
-    return (this.value - this.options.range.min)
-     * this.tracker.offsetWidth
-     / (this.options.range.max - this.options.range.min);
+    const offset = (this.value - this.options.range.min)
+    * this.tracker.offsetWidth
+    / (this.options.range.max - this.options.range.min);
+    return this.getStepOffset(offset);
   }
 
   setOffset(target) {
     const targetPosition = target;
-    const distance = (targetPosition > this.thubmPosition) ? (targetPosition - this.thubmPosition) : 0;
-    this.offset = distance > this.tracker.offsetWidth ? this.tracker.offsetWidth : distance;
+    let distance = 0;
+
+    if (targetPosition > this.thubmPosition) {
+      distance = targetPosition - this.thubmPosition;
+    }
+
+    if (distance > this.tracker.offsetWidth) {
+      distance = this.tracker.offsetWidth;
+    }
+
+    this.offset = this.getStepOffset(distance);
   }
 
   initValue() {
