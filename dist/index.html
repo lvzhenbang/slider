@@ -30,6 +30,24 @@
       box-sizing: border-box;
       border: 1px solid #000;
       background-color: red;
+      /* transition: transform .3s ease-in-out; */
+    }
+    /* tooltip */
+    .tooltip {
+      display: none;
+      position: absolute;
+      width: auto;
+      max-width: 200px;
+      padding: .5em 1em;
+      font-size: .8rem;
+      color: #FFFFFF;
+      border-radius: 3px;
+      text-align: center;
+      background: #1E252B;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    }
+    .tooltip.active{
+      display: block;
     }
   </style>
 </head>
