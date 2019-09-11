@@ -12,7 +12,7 @@ class Slider {
       ...defaults,
       ...opt,
     };
-    this.thumb = this.tracker.querySelector('.thumb');
+    this.thumb = this.getThumb();
     this.thubmPosition = this.getThumbPosition();
     this.value = this.initValue();
     this.offset = this.getOffset();
@@ -21,6 +21,7 @@ class Slider {
       placement: 'right',
       container: '.demo',
     });
+    this.delay = 300;
     this.init();
     this.version = version;
   }
@@ -40,6 +41,20 @@ class Slider {
     }, false);
   }
 
+  getThumb() {
+    if (!this.tracker) {
+      throw new Error('this.el must be exsits.');
+    }
+
+    let thumbEl = this.tracker.querySelector('.thumb');
+    if (!thumbEl) {
+      thumbEl = document.createElement('div');
+      thumbEl.classList.add('thumb');
+      this.tracker.appendChild(thumbEl);
+    }
+    return thumbEl;
+  }
+
   getThumbPosition() {
     const thumbRect = this.thumb.getBoundingClientRect();
 
@@ -52,8 +67,10 @@ class Slider {
       this.setOffset(e.pageX);
     }
     this.thumb.style.transform = `translateX(${this.offset}px)`;
-    const currentValue = this.getValue();
-    this.tooltip.setContent(currentValue);
+    window.setTimeout(() => {
+      const currentValue = this.getValue();
+      this.tooltip.setContent(currentValue);
+    }, this.delay);
   }
 
   getStepUnit() {
