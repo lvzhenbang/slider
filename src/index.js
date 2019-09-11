@@ -1,3 +1,5 @@
+import Tooltip from 'lzb-tooltip';
+
 import defaults from '../config/defaults';
 import version from '../config/version';
 
@@ -14,6 +16,11 @@ class Slider {
     this.thubmPosition = this.getThumbPosition();
     this.value = this.initValue();
     this.offset = this.getOffset();
+    this.tooltip = new Tooltip(this.thumb, {
+      content: this.value,
+      placement: 'right',
+      container: '.demo',
+    });
     this.init();
     this.version = version;
   }
@@ -46,7 +53,7 @@ class Slider {
     }
     this.thumb.style.transform = `translateX(${this.offset}px)`;
     const currentValue = this.getValue();
-    window.console.log(currentValue);
+    this.tooltip.setContent(currentValue);
   }
 
   getStepUnit() {

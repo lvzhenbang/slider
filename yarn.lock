@@ -4583,6 +4583,30 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
+lzb-tooltip@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/lzb-tooltip/-/lzb-tooltip-0.0.2.tgz#4df83b5456426f687190838033c512d2047206af"
+  integrity sha512-aYWCNXLkMRgWPYK5Jkd/x3lLJpli2GptK404s+bcQCarRijrtGA3vuJaIZoMSFdK5rC9qJkkbVleMrW+rCrjmQ==
+  dependencies:
+    "@babel/cli" "^7.5.0"
+    "@babel/core" "^7.5.4"
+    "@babel/plugin-transform-modules-umd" "^7.2.0"
+    "@babel/preset-env" "^7.5.4"
+    babel-eslint "^10.0.2"
+    babel-loader "^8.0.6"
+    core-js "^3.1.4"
+    eslint "^6.0.1"
+    eslint-config-airbnb "^17.1.1"
+    eslint-plugin-import "^2.18.0"
+    eslint-plugin-jest "^22.9.0"
+    eslint-plugin-jsx-a11y "^6.2.3"
+    eslint-plugin-react "^7.14.2"
+    html-webpack-plugin "^3.2.0"
+    jest "^24.8.0"
+    webpack "^4.35.3"
+    webpack-cli "^3.3.5"
+    webpack-dev-server "^3.7.2"
+
 make-dir@^2.0.0, make-dir@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-2.1.0.tgz#5f0310e18b8be898cc07009295a30ae41e91e6f5"
