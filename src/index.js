@@ -121,8 +121,8 @@ class Slider {
   getValue() {
     const trackerRect = this.tracker.getBoundingClientRect();
     const percentOffset = (this.getThumbPosition() - trackerRect.left) / trackerRect.width;
-    return this.options.range.min
-      + (this.options.range.max - this.options.range.min) * percentOffset;
+    return Math.round(this.options.range.min
+      + (this.options.range.max - this.options.range.min) * percentOffset);
   }
 }
 
