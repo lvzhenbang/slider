@@ -134,8 +134,14 @@ class Slider {
     const percentOffset = this.options.direction
       ? (this.getThumbPosition() - trackerRect.top) / trackerRect.height
       : (this.getThumbPosition() - trackerRect.left) / trackerRect.width;
-    return Math.round(this.options.range.min
-      + (this.options.range.max - this.options.range.min) * percentOffset);
+    const returnVal = this.options.range.min
+     + (this.options.range.max - this.options.range.min) * percentOffset;
+    const consult = returnVal / this.options.step;
+    const remainder = returnVal % this.options.step;
+
+    return remainder > this.options.step / 2
+      ? parseInt(consult + 1, 10) * this.options.step
+      : parseInt(consult, 10) * this.options.step;
   }
 }
 
