@@ -58,15 +58,23 @@ class Slider {
   getThumbPosition() {
     const thumbRect = this.thumb.getBoundingClientRect();
 
-    return thumbRect.left + thumbRect.width / 2;
+    return this.options.direction
+      ? thumbRect.top + thumbRect.height / 2
+      : thumbRect.left + thumbRect.width / 2;
   }
 
   setThumbStyle(e) {
     if (e) {
       e.preventDefault();
-      this.setOffset(e.pageX);
+      this.setOffset(this.options.direction ? e.pageY : e.pageX);
     }
-    this.thumb.style.transform = `translateX(${this.offset}px)`;
+
+    if (this.options.direction) {
+      this.thumb.style.transform = `translateY(${this.offset}px)`;
+    } else {
+      this.thumb.style.transform = `translateX(${this.offset}px)`;
+    }
+
     window.setTimeout(() => {
       const currentValue = this.getValue();
       this.tooltip.setContent(currentValue);
@@ -74,8 +82,9 @@ class Slider {
   }
 
   getStepUnit() {
-    return this.options.step * this.tracker.offsetWidth
-    / (this.options.range.max - this.options.range.min);
+    return this.options.step
+      * (this.options.direction ? this.tracker.offsetHeight : this.tracker.offsetWidth)
+      / (this.options.range.max - this.options.range.min);
   }
 
   getStepOffset(value) {
@@ -87,7 +96,7 @@ class Slider {
 
   getOffset() {
     const offset = (this.value - this.options.range.min)
-    * this.tracker.offsetWidth
+    * (this.options.direction ? this.tracker.offsetHeight : this.tracker.offsetWidth)
     / (this.options.range.max - this.options.range.min);
     return this.getStepOffset(offset);
   }
@@ -100,8 +109,10 @@ class Slider {
       distance = targetPosition - this.thubmPosition;
     }
 
-    if (distance > this.tracker.offsetWidth) {
-      distance = this.tracker.offsetWidth;
+    if (this.options.direction) {
+      if (distance > this.tracker.offsetHeight) distance = this.tracker.offsetHeight;
+    } else {
+      if (distance > this.tracker.offsetWidth) distance = this.tracker.offsetWidth;
     }
 
     this.offset = this.getStepOffset(distance);
@@ -120,7 +131,9 @@ class Slider {
 
   getValue() {
     const trackerRect = this.tracker.getBoundingClientRect();
-    const percentOffset = (this.getThumbPosition() - trackerRect.left) / trackerRect.width;
+    const percentOffset = this.options.direction
+      ? (this.getThumbPosition() - trackerRect.top) / trackerRect.height
+      : (this.getThumbPosition() - trackerRect.left) / trackerRect.width;
     return Math.round(this.options.range.min
       + (this.options.range.max - this.options.range.min) * percentOffset);
   }
