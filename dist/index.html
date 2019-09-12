@@ -23,6 +23,12 @@
       background-color: #ccc;
     }
 
+    .tracker.vertical {
+      width: 10px;
+      height: 200px;
+      margin-top: 30px;
+    }
+
     .thumb {
       width: 10px;
       height: 10px;
@@ -31,6 +37,10 @@
       border: 1px solid #000;
       background-color: red;
       transition: transform .3s ease-in-out;
+    }
+    .tracker.vertical .thumb {
+      margin-left: 0px;
+      margin-top: -5px;
     }
     /* tooltip */
     .tooltip {
@@ -54,13 +64,17 @@
 
 <body>
   <div class="demo">
-    <div class="tracker">
+    <div class="tracker horizontal">
       <div class="thumb"></div>
     </div>
+
+    <div class="tracker vertical">
+        <div class="thumb"></div>
+      </div>
   </div>
 <script type="text/javascript" src="slider.min.js"></script></body>
 <script>
-  var slider = new Slider(document.querySelector('.tracker'), {
+  var slider = new Slider(document.querySelector('.tracker.horizontal'), {
     value: 30,
     range: {
       min: 10,
@@ -68,6 +82,14 @@
     },
     step: 5
   });
-  
+  var slider2 = new Slider(document.querySelector('.tracker.vertical'), {
+    value: 30,
+    range: {
+      min: 10,
+      max: 60
+    },
+    step: 5,
+    direction: true,
+  });
 </script>
 </html>
