@@ -4,6 +4,7 @@ import defaults from '../config/defaults';
 import version from '../config/version';
 
 import inBrowser from './utils/inBrowser';
+import getActions from './utils/getActions';
 
 class Slider {
   constructor(el, opt) {
@@ -29,15 +30,16 @@ class Slider {
   init() {
     const setStyle = this.setThumbStyle.bind(this);
     setStyle();
-    this.tracker.addEventListener('mousedown', setStyle, false);
-    this.tracker.addEventListener('mousedown', (e) => {
+    const actions = getActions();
+    this.tracker.addEventListener(actions.start, setStyle, false);
+    this.tracker.addEventListener(actions.start, (e) => {
       e.preventDefault();
-      this.tracker.addEventListener('mousemove', setStyle, false);
+      this.tracker.addEventListener(actions.move, setStyle, false);
     }, false);
 
-    this.tracker.addEventListener('mouseup', (e) => {
+    this.tracker.addEventListener(actions.end, (e) => {
       e.preventDefault();
-      this.tracker.removeEventListener('mousemove', setStyle, false);
+      this.tracker.removeEventListener(actions.move, setStyle, false);
     }, false);
   }
 
@@ -66,7 +68,11 @@ class Slider {
   setThumbStyle(e) {
     if (e) {
       e.preventDefault();
-      this.setOffset(this.options.direction ? e.pageY : e.pageX);
+      this.setOffset(
+        this.options.direction
+          ? (e.pageY || e.touches[0].pageY)
+          : (e.pageX || e.touches[0].pageX),
+      );
     }
 
     if (this.options.direction) {
