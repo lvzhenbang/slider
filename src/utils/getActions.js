@@ -16,9 +16,9 @@ function getActions() {
   }
 
   return {
-    start: 'touchstart',
-    move: 'touchmove',
-    end: 'touchend',
+    start: 'mousedown touchstart',
+    move: 'mousemove touchmove',
+    end: 'mouseup touchend',
   };
 }
 

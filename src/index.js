@@ -31,16 +31,24 @@ class Slider {
     const setStyle = this.setThumbStyle.bind(this);
     setStyle();
     const actions = getActions();
-    this.tracker.addEventListener(actions.start, setStyle, false);
-    this.tracker.addEventListener(actions.start, (e) => {
-      e.preventDefault();
-      this.tracker.addEventListener(actions.move, setStyle, false);
-    }, false);
+    const startArr = actions.start.split(' ');
+    const moveArr = actions.move.split(' ');
+    const endArr = actions.end.split(' ');
 
-    this.tracker.addEventListener(actions.end, (e) => {
-      e.preventDefault();
-      this.tracker.removeEventListener(actions.move, setStyle, false);
-    }, false);
+    startArr.forEach((type, index) => {
+      this.tracker.addEventListener(type, setStyle, false);
+      this.tracker.addEventListener(type, (e) => {
+        e.preventDefault();
+        this.tracker.addEventListener(moveArr[index], setStyle, false);
+      }, false);
+    });
+
+    endArr.forEach((type, index) => {
+      this.tracker.addEventListener(type, (e) => {
+        e.preventDefault();
+        this.tracker.removeEventListener(moveArr[index], setStyle, false);
+      }, false);
+    });
   }
 
   getThumb() {
