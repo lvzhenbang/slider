@@ -46,6 +46,7 @@ class Slider {
     endArr.forEach((type, index) => {
       this.tracker.addEventListener(type, (e) => {
         e.preventDefault();
+        this.setThumbStyle(e);
         this.tracker.removeEventListener(moveArr[index], setStyle, false);
       }, false);
     });
@@ -80,6 +81,7 @@ class Slider {
         this.options.direction
           ? (e.pageY || e.touches[0].pageY)
           : (e.pageX || e.touches[0].pageX),
+        e.type,
       );
     }
 
@@ -115,7 +117,7 @@ class Slider {
     return this.getStepOffset(offset);
   }
 
-  setOffset(target) {
+  setOffset(target, type) {
     const targetPosition = target;
     let distance = 0;
 
@@ -123,13 +125,19 @@ class Slider {
       distance = targetPosition - this.thubmPosition;
     }
 
-    if (this.options.direction) {
-      if (distance > this.tracker.offsetHeight) distance = this.tracker.offsetHeight;
-    } else {
-      if (distance > this.tracker.offsetWidth) distance = this.tracker.offsetWidth;
+    if (this.options.direction && distance > this.tracker.offsetHeight) {
+      distance = this.tracker.offsetHeight;
     }
 
-    this.offset = this.getStepOffset(distance);
+    if (!this.options.direction && distance > this.tracker.offsetWidth) {
+      distance = this.tracker.offsetWidth;
+    }
+
+    if (type === 'mousemove' || type === 'touchmove') {
+      this.offset = distance;
+    } else {
+      this.offset = this.getStepOffset(distance, type);
+    }
   }
 
   initValue() {
