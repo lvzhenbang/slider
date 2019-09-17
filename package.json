@@ -1,6 +1,6 @@
 {
   "name": "lzb-slider",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "a plugin of slider",
   "main": "dist/slider.min.js",
   "repository": {
